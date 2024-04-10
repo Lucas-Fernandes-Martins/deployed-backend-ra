@@ -1,1 +1,4 @@
 fastapi[all]
+sympy
+latex2sympy2
+zss

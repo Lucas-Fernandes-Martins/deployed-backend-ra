@@ -1,11 +1,6 @@
 from sympy.core.basic import Basic
 from sympy import simplify, srepr, flatten, Add, Mul, Eq
 from latex2sympy2 import latex2sympy, latex2latex
-
-from difflib import SequenceMatcher
-
-import torch
-from sklearn.metrics.pairwise import cosine_similarity
 from zss import Node, simple_distance
 
 COMMUTATIVE_FUNCTIONS = [Mul, Add]
@@ -100,11 +95,6 @@ def simpy_to_tree(sympy_expr):
 def latex_to_tree(latex_expr):
     return srepr(simplify_latex_expression(latex_expr))
 
-def get_tree_sequence_similarity(tree1, tree2):
-    matcher = SequenceMatcher(None, tree1, tree2)
-    return matcher.ratio()
-
-
 
 # For bert similarity
 
@@ -114,9 +104,6 @@ def get_bert_embeddings(expr, model, tokenizer):
         outputs = model(**tokens)
     embeddings = outputs.last_hidden_state.mean(dim=1).squeeze().numpy()
     return embeddings
-
-def get_text_similarity(embeddings1, embeddings2):
-    return cosine_similarity([embeddings1], [embeddings2])[0][0]
 
 def load_expr(expr):
     symbolic = simplify_latex_expression(expr)
